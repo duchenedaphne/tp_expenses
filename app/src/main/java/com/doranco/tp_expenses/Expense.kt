@@ -8,9 +8,3 @@ val dummyExpenses = listOf(
     Expense(2, "Pizza John", "2022-2-19", 14.99),
     Expense(3, "Dinner in the clouds", "2022-2-18", 18.59),
 )
-
-data class Filter(var time: String, val currency: String, var total: Double)
-
-val dummyFilter = listOf(
-    Filter("Last 7 Days", "$", 67.16)
-)
