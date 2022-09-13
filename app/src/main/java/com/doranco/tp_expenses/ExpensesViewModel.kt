@@ -7,13 +7,34 @@ class ExpensesViewModel:ViewModel() {
 
     val state = mutableStateOf(dummyExpenses)
 
-    fun totalPrice(price : Double) {
-        val expenses = state.value.toMutableList()
-    /*
-        val itemIndex = expenses.indexOfFirst { it.id == id }
-        val item = expenses[itemIndex]
-        state.value = expenses
-*/
+    val expenses = state.value.toMutableList()
+
+    fun totalPrice(): Double {
+        var total: Double = 0.0
+        expenses.forEach {
+            total +=  it.price
+        }
+        return total
+    }
+
+    fun selectDate(): String {
+        var dateSelection: String = ""
+        expenses.forEach {
+            dateSelection
+        }
+        return dateSelection
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
