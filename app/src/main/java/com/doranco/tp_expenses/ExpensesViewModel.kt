@@ -2,6 +2,8 @@ package com.doranco.tp_expenses
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ExpensesViewModel:ViewModel() {
 
@@ -16,14 +18,22 @@ class ExpensesViewModel:ViewModel() {
         }
         return total
     }
-
+/*
     fun selectDate(): String {
+        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         var dateSelection: String = ""
+
+        expenses.sortedByDescending {
+            LocalDate.parse(it, dateTimeFormatter)
+
         expenses.forEach {
-            dateSelection
+            if (dateSelection )
+
         }
         return dateSelection
     }
+
+ */
 
 }
 

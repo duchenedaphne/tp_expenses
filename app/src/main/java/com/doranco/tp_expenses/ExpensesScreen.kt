@@ -31,9 +31,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun ExpensesScreen() {
     val viewModel: ExpensesViewModel = viewModel()
-    FilterDetails()
-    LazyColumn(contentPadding = PaddingValues(vertical = 60.dp, horizontal = 8.dp), modifier = Modifier) {
 
+    FilterDetails()
+
+    LazyColumn(
+        contentPadding = PaddingValues(vertical = 60.dp, horizontal = 8.dp), modifier = Modifier
+    ) {
         items(viewModel.state.value) { expense ->
             ExpenseItem(expense)
         }
@@ -42,49 +45,58 @@ fun ExpensesScreen() {
 
 @Composable
 fun FilterDetails() {
-    var text_time = remember {
+    val text_time = remember {
         mutableStateOf("Last 7 Days")
     }
-    var text_price = remember {
+    val text_price = remember {
         mutableStateOf("67.16")
     }
-    Card(elevation = 4.dp, modifier = Modifier
-        .padding(16.dp)
-        .width(360.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-            Button( onClick = {
-                                text_time.value = "Last 14 Days"
-                                println("FilterDetails: bouton cliqué")
-                                Log.d(TAG, "FilterDetails: cliqué")
-                             },
+
+    Card(
+        elevation = 4.dp, modifier = Modifier.padding(16.dp).width(360.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(
+                onClick = {
+                            text_time.value = "Last 14 Days"
+                            println("FilterDetails: bouton cliqué")
+                            Log.d(TAG, "FilterDetails: cliqué")
+                          },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = colorResource(id = R.color.purple_200),
                     contentColor = colorResource(id = R.color.white),
                 ),
                 shape = MaterialTheme.shapes.large,
-                modifier = Modifier) {
+                modifier = Modifier
+            ) {
                 Text(text = text_time.value, style = MaterialTheme.typography.body2)
             }
-            Button( onClick = {  },
+
+            Button(
+                onClick = {  },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = colorResource(id = R.color.purple_200),
                     contentColor = colorResource(id = R.color.white)
                 ),
                 shape = MaterialTheme.shapes.large,
-                modifier = Modifier)
-            {
+                modifier = Modifier
+            ) {
                 Text(text = "$", style = MaterialTheme.typography.h6)
             }
-            Button( onClick = {
+
+            Button(
+                onClick = {
                              text_price.value = "00.00"
-                             },
+                          },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = colorResource(id = R.color.purple_200),
                     contentColor = colorResource(id = R.color.white)
                 ),
                 shape = MaterialTheme.shapes.large,
-                modifier = Modifier)
-            {
+                modifier = Modifier
+            ) {
                 Text(text = text_price.value, style = MaterialTheme.typography.h6)
             }
         }
@@ -93,8 +105,12 @@ fun FilterDetails() {
 
 @Composable
 fun ExpenseItem(item: Expense) {
-    Card(elevation = 4.dp, modifier = Modifier.padding(8.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
+    Card(
+        elevation = 4.dp, modifier = Modifier.padding(8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
+        ) {
             ExpenseDetails(item.title, item.date, item.price, Modifier.weight(0.85f))
         }
     }
@@ -103,23 +119,32 @@ fun ExpenseItem(item: Expense) {
 @Composable
 fun ExpenseDetails(title: String, date: String, price: Double, modifier: Modifier) {
 
-    Row( verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween ) {
-        Column(modifier = modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = modifier
+        ) {
             Text(text = title, style = MaterialTheme.typography.h6)
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+
+            CompositionLocalProvider(
+                LocalContentAlpha provides ContentAlpha.medium
+            ) {
                 Text(text = date, style = MaterialTheme.typography.body2)
             }
         }
 
-        Column(modifier = modifier, horizontalAlignment = Alignment.End) {
-            Button( onClick = {  },
+        Column(
+            modifier = modifier, horizontalAlignment = Alignment.End
+        ) {
+            Button(
+                onClick = {  },
                 modifier = Modifier,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = colorResource(id = R.color.teal_200),
                     contentColor = colorResource(id = R.color.white)
                 ),
                 shape = MaterialTheme.shapes.large
-
             ) {
                 Text(text = price.toString(), style = MaterialTheme.typography.h6)
             }
