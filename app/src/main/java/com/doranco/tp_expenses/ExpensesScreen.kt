@@ -1,5 +1,6 @@
 package com.doranco.tp_expenses
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Build
 import android.util.Log
@@ -9,24 +10,25 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun ExpensesScreen() {
     val viewModel: ExpensesViewModel = viewModel()
-    var total: Double =  String.format("%.2f", viewModel.totalPrice()).toDouble()
+    var total =  String.format("%.2f", viewModel.totalPrice()).toDouble()
 
     Column(modifier = Modifier.padding(8.dp)){
-        FilterDetails()
+        FilterDetails(viewModel, total)
         LazyColumn(contentPadding = PaddingValues(vertical = 8.dp, horizontal = 8.dp), modifier = Modifier) {
             items(viewModel.state.value) { expense ->
                 ExpenseItem(expense)
@@ -37,40 +39,35 @@ fun ExpensesScreen() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun FilterDetails() {
+fun FilterDetails(viewModel: ExpensesViewModel, total: Double) {
     Card(elevation = 4.dp, modifier = Modifier
         .padding(8.dp)
         .fillMaxWidth()) {
-        InnerFilter(Modifier.fillMaxWidth())
-    }
-}
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+            Button(
+                onClick = {
+                    viewModel.selectDate()
+                    System.out.println("FilterDetails: bouton cliqué")
+                    Log.d(TAG, "FilterDetails: cliqué")
+                },
+                modifier = Modifier.padding(4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.purple_200),
+                    contentColor = colorResource(id = R.color.white),
+                ),
+                shape = RoundedCornerShape(20)
+            ) { Text(text = "7 jours", style = MaterialTheme.typography.h6) }
 
-@Composable
-fun InnerFilter(modifier: Modifier) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-        Button(
-            onClick = {
-                viewModel.selectDate()
-                System.out.println("FilterDetails: bouton cliqué")
-                Log.d(TAG, "FilterDetails: cliqué")
-            },
-            modifier = Modifier.padding(4.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.purple_200),
-                contentColor = colorResource(id = R.color.white),
-            ),
-            shape = RoundedCornerShape(10)
-        ) { Text(text = "7 jours", style = MaterialTheme.typography.h6) }
-
-        Button(
-            onClick = {  },
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.purple_200),
-                contentColor = colorResource(id = R.color.white)
-            ),
-            shape = RoundedCornerShape(10),
-            modifier = Modifier.padding(4.dp)
-        ) { Text(text = "€$total", style = MaterialTheme.typography.h6) }
+            Button(
+                onClick = {  },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.purple_200),
+                    contentColor = colorResource(id = R.color.white)
+                ),
+                shape = RoundedCornerShape(20),
+                modifier = Modifier.padding(4.dp)
+            ) { Text(text = "€$total", style = MaterialTheme.typography.h6) }
+        }
     }
 }
 
@@ -106,7 +103,7 @@ fun ExpenseDetails(title: String, date: String, price: Double, modifier: Modifie
                     backgroundColor = colorResource(id = R.color.teal_200),
                     contentColor = colorResource(id = R.color.white)
                 ),
-                shape = RoundedCornerShape(10)
+                shape = RoundedCornerShape(50)
             ) { Text(text = price.toString(), style = MaterialTheme.typography.h6) }
         }
     }

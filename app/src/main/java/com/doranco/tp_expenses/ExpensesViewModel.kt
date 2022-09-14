@@ -15,7 +15,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class ExpensesViewModel:ViewModel() {
+class ExpensesViewModel: ViewModel() {
 
     val state = mutableStateOf(emptyList<Expense>())
     private var restInterface: ExpensesApiService
@@ -48,7 +48,7 @@ class ExpensesViewModel:ViewModel() {
     private fun getExpenses() {
         viewModelScope.launch(errorHandler) {
             val expenses = getRemoteExpenses()
-            state.value = expenses
+            state.value = expenses.sortedBy { it.title }
         }
     }
 
@@ -72,5 +72,7 @@ class ExpensesViewModel:ViewModel() {
             var expenseDate = LocalDate.parse(it.date, dateTimeFormatter)
             expenseDate.isBefore(pastWeek)
         }
+
+        state.value = state.value.sortedByDescending { it.date }
     }
 }

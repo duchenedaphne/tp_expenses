@@ -12,15 +12,3 @@ data class Expense(
     @SerializedName("price")
     val price: Double)
 
-val dummyExpenses = listOf(
-    Expense(0, "A book", "2022-2-19", 14.99),
-    Expense(1, "Another book", "2022-2-18", 18.59),
-    Expense(2, "Pizza John", "2022-2-19", 14.99),
-    Expense(3, "Dinner in the clouds", "2022-2-18", 18.59),
-)
-
-data class Filter(var time: String, val currency: String, var total: Double)
-
-val dummyFilter = listOf(
-    Filter("Last 7 Days", "$", 67.16)
-)
