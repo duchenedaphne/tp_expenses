@@ -38,7 +38,7 @@ fun ExpensesScreen() {
         contentPadding = PaddingValues(vertical = 60.dp, horizontal = 8.dp), modifier = Modifier
     ) {
         items(viewModel.state.value) { expense ->
-            ExpenseItem(expense)
+            ExpenseItem(item = expense)
         }
     }
 }
