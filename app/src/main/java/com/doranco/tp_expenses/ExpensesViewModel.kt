@@ -1,5 +1,7 @@
 package com.doranco.tp_expenses
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +12,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class ExpensesViewModel:ViewModel() {
@@ -45,8 +48,32 @@ class ExpensesViewModel:ViewModel() {
     private fun getExpenses() {
         viewModelScope.launch(errorHandler) {
             val expenses = getRemoteExpenses()
-            state.value = expenses
+            state.value = expenses.sortedBy { it.title }
         }
+    }
+
+    fun totalPrice(): Double {
+        var total: Double = 0.0
+
+        state.value.forEach {
+            total +=  it.price
+        }
+
+        return total
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun selectDate(){
+        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val today: LocalDate = LocalDate.now(ZoneId.of("Europe/Paris"))
+        val pastWeek: LocalDate = today.minusWeeks( 1 )
+
+        state.value = state.value.filter {
+            var expenseDate = LocalDate.parse(it.date, dateTimeFormatter)
+            expenseDate.isBefore(pastWeek)
+        }
+
+        state.value = state.value.sortedByDescending { it.date }
     }
 }
 
