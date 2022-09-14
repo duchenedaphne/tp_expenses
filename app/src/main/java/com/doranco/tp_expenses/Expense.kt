@@ -1,6 +1,16 @@
 package com.doranco.tp_expenses
 
-data class Expense(val id: Int, val title: String, val date: String, val price: Double)
+import com.google.gson.annotations.SerializedName
+
+data class Expense(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("title")
+    val title: String,
+    @SerializedName("date")
+    val date: String,
+    @SerializedName("price")
+    val price: Double)
 
 val dummyExpenses = listOf(
     Expense(0, "A book", "2022-2-19", 14.99),

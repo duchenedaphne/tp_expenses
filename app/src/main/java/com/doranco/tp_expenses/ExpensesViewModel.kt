@@ -30,7 +30,7 @@ class ExpensesViewModel:ViewModel() {
                 GsonConverterFactory.create()
             )
             .baseUrl(
-                "https://avid-racer-241421.firebaseio.com/"
+                "https://restaurant-84b9e-default-rtdb.europe-west1.firebasedatabase.app/"
             )
             .build()
         restInterface = retrofit.create(
@@ -52,25 +52,25 @@ class ExpensesViewModel:ViewModel() {
         }
     }
 
-    private suspend fun totalPrice(): Double {
+    fun totalPrice(): Double {
         var total: Double = 0.0
 
-        getRemoteExpenses().forEach {
+        state.value.forEach {
             total +=  it.price
         }
+
         return total
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun selectDate(){
+    fun selectDate(){
         val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val today: LocalDate = LocalDate.now(ZoneId.of("Europe/Paris"))
         val pastWeek: LocalDate = today.minusWeeks( 1 )
 
-        getRemoteExpenses().forEach {
+        state.value = state.value.filter {
             var expenseDate = LocalDate.parse(it.date, dateTimeFormatter)
-            if (expenseDate.isAfter(pastWeek))
-                getExpenses()
+            expenseDate.isBefore(pastWeek)
         }
     }
 }
