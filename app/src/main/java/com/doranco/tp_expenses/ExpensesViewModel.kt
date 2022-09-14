@@ -79,36 +79,6 @@ class ExpensesViewModel:ViewModel() {
 
 
 
-    /*
-    val expenses = state.value.toMutableList()
-
-    fun totalPrice(): Double {
-        var total: Double = 0.0
-        expenses.forEach {
-            total +=  it.price
-        }
-        return total
-    }
-/*
-    fun selectDate(): String {
-        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        var dateSelection: String = ""
-
-        expenses.sortedByDescending {
-            LocalDate.parse(it, dateTimeFormatter)
-
-        expenses.forEach {
-            if (dateSelection )
-
-        }
-        return dateSelection
-    }
-
- */
-
-}
-*/
-
 
 
 
